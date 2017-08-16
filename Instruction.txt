@@ -1,0 +1,63 @@
+This program homework intends to implement both Naive Bayes and TAN(Tree augmented Naive Bayes).
+
+Input:
+The program reads files in ARFF format, and for the ARFF format:
+    -Each instance is described on a single line.
+    -The feature values are separated by commas, and the las value on each line is the 
+     class label of the instance.
+    -Each ARFF file starts with a header section describing the features and the class label.
+    -Lines starting with '%' are comments.
+
+Assumption:
+    -Binary classification.
+    -All the attributes are discrete valued.
+    -Handle a variable number of attributes. 
+    -Laplace estimates when estimating all probabilities.
+
+
+Notes: 
+     For the Naive Bayes Network, we want to predict the class based on the current class and the attributes,
+     the types of the clsses are binary, there are only two kinds of classes, eg. we have class A, and predict
+     whether A or B, which is based on the posterial probability P(c|X)¡£
+
+     Problems:
+     1. When extracting the data from the arff files, I got some problems due to the arff format, as the arff file
+     whole data part is a 4 - argument dictionaries which are: attributes, relation, description and the data 
+     part, and we only need to use the 'attributes' and 'data' parts, and when i extract the attributes part data,
+     in order to get all the attributes, and store them into the dictionaries, and print out them, the sequence are
+     changed, and the sequences can be changed every time you run it, the optimization way is to use 
+     orderedDic() to define the dictionary, and the order won't be changed.
+      
+     2. When doing the 'data' part, my way is to extract data and store them into dictionaries. As all the file
+        things are a whole dictionary, when I query the data['data'], I can get the raw data part, which is 
+        the dictionary list, and iterate all the things based on the property.
+
+     3. When I was doing the probability part, all the probability or the probability given by the certain calss, 
+      I used the Laplace Estimation way, which needs the puseducount equals 1, which can avoid the probability given 
+      by certain class is 0, whch can cause some errors.
+   
+     4. When I was doint the final part of the program of NB, what I need to do is to structure the model and put the 
+      formula there, my way was to get to know the class of each line and do the ways given first and second class at same time,
+      and repeat until all the data has been iterated, my error was, as long as half of my prediction was correct but the other
+      part was not correct. Then I found the error, I classify two condition: last item of the line was class1, last item of the line
+      was class2, both of these 2 have 2 methods, then it will have 4 methods, and problem happended due to my previous functions are 
+      seperated for class1 or class2. So, dont put 2 conditions there, just calculate and give the samll conditions at last.
+TAN algorithm:
+
+
+
+Program name: bayes.py 
+              -Accept four command-line arguments as follows:
+               bayes <train-set-file> <test-set-file> <n|t>
+
+
+Output:
+     -The structure of the Bayes net by listing one line per attribute in which:
+             1. The name of the attribute
+             2. The names of its parents in the Bayes net separated by whitespace.
+                (for naive bayes, it will be 'class' variable for each attribute)
+     -One line for each instance in the test-set(in the same order as the file) indicating:
+             1. The predicted class
+             2. The actual class
+             3. The posterior probability of the predicted class
+     -The number of the test-set examples that were correctly classified.
